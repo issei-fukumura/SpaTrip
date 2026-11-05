@@ -1,0 +1,58 @@
+<% layout('layouts/boilerplate') %>
+    <div class="row">
+        <h1 class="text-center">
+            <%=spaground.title%>の編集
+        </h1>
+        <div class="offset-3 col-6">
+            <form action="/spagrounds/<%=spaground.id%>?_method=PUT" method="POST" novalidate class="validated-form">
+                <div class="mb-3">
+                    <label class="form-label for='title'">タイトル</label>
+                    <input class="form-control" type="text" name="spaground[title]" id="title" value="<%=spaground.title%>"
+                        required>
+                    <div class="valid-feedback">
+                        OK!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="location">場所</label>
+                    <input class="form-control" type="text" name="spaground[location]" id="location"
+                        value="<%= spaground.location %>" required>
+                    <div class="valid-feedback">
+                        OK!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="image">画像URL</label>
+                    <input class="form-control" type="text" name="spaground[image]" id="image"
+                        value="<%= spaground.image %>" required>
+                    <div class="valid-feedback">
+                        OK!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="price">価格</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="price-label">¥</span>
+                        <input type="text" class="form-control" id="price" placeholder="0" aria-label="価格"
+                            aria-describedby="price-label" name="spaground[price]" value="<%= spaground.price %>" required>
+                        <div class="valid-feedback">
+                            OK!
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">説明</label>
+                    <textarea class="form-control" type="text" name="spaground[description]" id="description"
+                        required><%= spaground.description %></textarea>
+                    <div class="valid-feedback">
+                        OK!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-info">更新する</button>
+                </div>
+
+            </form>
+            <a href="/spagrounds">一覧に戻る</a>
+        </div>
+    </div>
