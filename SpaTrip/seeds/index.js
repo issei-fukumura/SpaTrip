@@ -21,6 +21,7 @@ const seedDB = async () => {
         const randomSpaIndex = Math.floor(Math.random() * cities.length);
         const price = Math.floor(Math.random() * 2000) + 1000;
         const spa = new Spaground({
+            author: '6aed3c6e560c6340af74f9c9',
             location: `${cities[randomSpaIndex].prefecture}${cities[randomSpaIndex].city}`,
             title: `${sample(descriptors)}・${sample(places)}`,
             image: `https://picsum.photos/400?random=${Math.random()}`,
