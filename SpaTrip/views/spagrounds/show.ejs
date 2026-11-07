@@ -1,0 +1,96 @@
+<% layout('layouts/boilerplate') %>
+    <link rel="stylesheet" href="/stylesheets/stars.css">
+
+    <div class="row">
+        <div class="col-6">
+            <div class="card mb-3">
+                <img src="<%= spaground.image %>" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= spaground.title %>
+                    </h5>
+                    <p class="card-text">
+                        <%= spaground.description %>
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-muted">
+                        <%= spaground.location %>
+                    </li>
+                    <li class="list-group-item">登録者：<%= spaground.author.username %>
+                    </li>
+                    <li class="list-group-item">¥<%= spaground.price %>/泊</li>
+                </ul>
+                <% if(currentUser && spaground.author.equals(currentUser._id)) { %>
+                    <div class="card-body">
+                        <a class="btn btn-info" href="/spagrounds/<%= spaground._id %>/edit">編集する</a>
+                        <form class="d-inline" action="/spagrounds/<%= spaground._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">削除する</button>
+                        </form>
+                    </div>
+                    <% } %>
+                        <div class="card-footer text-muted">
+                            2 days ago
+                        </div>
+            </div>
+
+        </div>
+        <div class="col-6">
+            <% if(currentUser) { %>
+                <h2>レビュー</h2>
+                <form action="/spagrounds/<%=spaground._id%>/reviews" method="POST" class="mb-3 validated-form"
+                    novalidate>
+                    <div>
+                        <!-- <label class="form-label" for="rating">評価</label>
+                        <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating"> -->
+                        <div>
+                            <fieldset class="starability-basic">
+                                <input type="radio" id="first-rate1" name="review[rating]" checked value="1" />
+                                <label for="first-rate1" title="１">評価1</label>
+                                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                                <label for="first-rate2" title="２">評価2</label>
+                                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                                <label for="first-rate3" title="３">評価3</label>
+                                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                                <label for="first-rate4" title="４">評価4</label>
+                                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                                <label for="first-rate5" title="５">評価5</label>
+                            </fieldset>
+                        </div>
+
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="body">コメント</label>
+                        <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+                        <div class="valid-feedback">
+                            OK!
+                        </div>
+                    </div>
+                    <button class="btn btn-success">投稿する</button>
+                </form>
+                <% } %>
+                    <% for (let review of spaground.reviews) { %>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">評価：<%= review.rating %>
+                                </h5>
+                                <p class="starability-result" data-rating="<%= review.rating %>">
+                                    評価: <%= review.rating %>
+                                </p>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    <%= review.author.username %>
+                                </h6>
+                                <p class="card-text">コメント：<%= review.body %>
+                                </p>
+                                <% if(currentUser && review.author.equals(currentUser._id)) { %>
+                                    <form
+                                        action="/spagrounds/<%= spaground._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                        method="POST">
+                                        <button class="btn btn-sm btn-danger">削除する</button>
+                                    </form>
+                                    <% } %>
+                            </div>
+                        </div>
+                        <% } %>
+        </div>
+    </div>
