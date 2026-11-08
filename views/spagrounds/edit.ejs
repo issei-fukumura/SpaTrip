@@ -4,11 +4,12 @@
             <%=spaground.title%>の編集
         </h1>
         <div class="offset-3 col-6">
-            <form action="/spagrounds/<%=spaground.id%>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+            <form action="/spagrounds/<%=spaground.id%>?_method=PUT" method="POST" novalidate class="validated-form"
+                enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class="form-label for='title'">タイトル</label>
-                    <input class="form-control" type="text" name="spaground[title]" id="title" value="<%=spaground.title%>"
-                        required>
+                    <input class="form-control" type="text" name="spaground[title]" id="title"
+                        value="<%=spaground.title%>" required>
                     <div class="valid-feedback">
                         OK!
                     </div>
@@ -26,7 +27,8 @@
                     <div class="input-group">
                         <span class="input-group-text" id="price-label">¥</span>
                         <input type="text" class="form-control" id="price" placeholder="0" aria-label="価格"
-                            aria-describedby="price-label" name="spaground[price]" value="<%= spaground.price %>" required>
+                            aria-describedby="price-label" name="spaground[price]" value="<%= spaground.price %>"
+                            required>
                         <div class="valid-feedback">
                             OK!
                         </div>
@@ -47,15 +49,16 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                <% spaground.images.forEach(function(img, i) { %>
-                    <img src="<%= img.thumbnail %>" class="img-thumbnail" alt="">
-                    
-                    <div class="form-check-inline">
-                        <input type="checkbox" name="deleteImages[]" id="image-<%= i %>" value="<%= img.filename %>">
-                    </div>
-                    <label for="image-<%= i %>">削除する</label>
-                <% }) %>
-            </div>
+                    <% spaground.images.forEach(function(img, i) { %>
+                        <img src="<%= img.thumbnail %>" class="img-thumbnail" alt="">
+
+                        <div class="form-check-inline">
+                            <input type="checkbox" name="deleteImages[]" id="image-<%= i %>"
+                                value="<%= img.filename %>">
+                        </div>
+                        <label for="image-<%= i %>">削除する</label>
+                        <% }) %>
+                </div>
                 <div class="mb-3">
                     <button class="btn btn-info">更新する</button>
                 </div>

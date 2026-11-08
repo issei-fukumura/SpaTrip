@@ -1,5 +1,5 @@
 const ExpressError = require('./utils/ExpressError');
-const {spagroundSchema,reviewSchema} = require('./schemas');
+const { spagroundSchema, reviewSchema } = require('./schemas');
 const Spaground = require('./models/spaground');
 const Review = require('./models/review')
 

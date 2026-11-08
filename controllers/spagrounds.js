@@ -1,3 +1,5 @@
+const maptilerClient = require("@maptiler/client");
+maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 const Spaground = require('../models/spaground');
 const { cloudinary } = require('../cloudinary');
 
@@ -27,7 +29,13 @@ module.exports.showSpaground = async (req, res) => {
 
 module.exports.createSpaground = async (req, res) => {
     // if (!req.body.spaground) throw new ExpressError('不正なキャンプ場のデータです', 400);
+    const geoData = await maptilerClient.geocoding.forward(
+        req.body.spaground.location,
+        { limit: 1 }
+    );
+    console.log(geoData);
     const spaground = new Spaground(req.body.spaground);
+    spaground.geometry = geoData.features[0].geometry;
     spaground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     spaground.author = req.user._id;
     await spaground.save();
@@ -53,12 +61,12 @@ module.exports.updateSpaground = async (req, res) => {
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     spaground.images.push(...imgs);
     await spaground.save();
-     if (req.body.deleteImages) {
-            for (let filename of req.body.deleteImages) {
-                await cloudinary.uploader.destroy(filename);
-            }
-            await spaground.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
         }
+        await spaground.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+    }
     req.flash('success', 'スパを更新しました');
     res.redirect(`/spagrounds/${spaground._id}`);
 }
