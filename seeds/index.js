@@ -1,7 +1,14 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const mongoose = require('mongoose');
 const cities = require('./cities');
 const { descriptors, places } = require('./seedHelpers');
 const Spaground = require('../models/spaground');
+
+// const dbUrl = process.env.DB_URL;
+// mongodb://localhost:27017/SpaTrip
 
 mongoose.connect('mongodb://localhost:27017/SpaTrip')
     .then(() => {
@@ -26,8 +33,11 @@ const seedDB = async () => {
             title: `${sample(descriptors)}・${sample(places)}`,
             geometry: {
                 type: 'Point',
-                coordinates: [ 141.1392381414771, 39.14427523787517] 
-    },
+                coordinates: [
+                    cities[randomSpaIndex].longitude,
+                    cities[randomSpaIndex].latitude
+                ]
+            },
             description: '木曾路はすべて山の中である。あるところは岨づたいに行く崖の道であり、あるところは数十間の深さに臨む木曾川の岸であり、あるところは山の尾をめぐる谷の入り口である。一筋の街道はこの深い森林地帯を貫いていた。東ざかいの桜沢から、西の十曲峠まで、木曾十一宿はこの街道に添うて、二十二里余にわたる長い谿谷の間に散在していた。道路の位置も幾たびか改まったもので、古道はいつのまにか深い山間に埋もれた。',
             price,
             images: [
