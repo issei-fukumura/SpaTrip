@@ -7,10 +7,9 @@ const cities = require('./cities');
 const { descriptors, places } = require('./seedHelpers');
 const Spaground = require('../models/spaground');
 
-// const dbUrl = process.env.DB_URL;
-// mongodb://localhost:27017/SpaTrip
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/SpaTrip';
 
-mongoose.connect('mongodb://localhost:27017/SpaTrip')
+mongoose.connect(dbUrl)
     .then(() => {
         console.log('MongoDBコネクションOK！！');
     })
@@ -28,7 +27,7 @@ const seedDB = async () => {
         const randomSpaIndex = Math.floor(Math.random() * cities.length);
         const price = Math.floor(Math.random() * 2000) + 1000;
         const spa = new Spaground({
-            author: '6aed3c6e560c6340af74f9c9',
+            author: '6af2de2c90f298bf2e725e82',
             location: `${cities[randomSpaIndex].prefecture}${cities[randomSpaIndex].city}`,
             title: `${sample(descriptors)}・${sample(places)}`,
             geometry: {
