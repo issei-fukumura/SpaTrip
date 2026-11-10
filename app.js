@@ -69,7 +69,7 @@ const sessionConfig = {
     store,  
     secret,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 7
@@ -123,7 +123,6 @@ app.use(helmet.contentSecurityPolicy({
 
 
 app.use((req, res, next) => {
-    console.log(req.query)
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
@@ -133,12 +132,6 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     res.render('home')
 })
-
-app.get('/fakeUser', async (req, res) => {
-    const user = new User({ email: 'hogegege@example.com', username: 'hogegege' });
-    const newUser = await User.register(user, 'mogegege');
-    res.send(newUser);
-});
 
 app.use('/', userRoutes)
 app.use('/spagrounds', spagroundRoutes)

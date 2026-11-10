@@ -33,13 +33,11 @@ module.exports.createSpaground = async (req, res) => {
         req.body.spaground.location,
         { limit: 1 }
     );
-    console.log(geoData);
     const spaground = new Spaground(req.body.spaground);
     spaground.geometry = geoData.features[0].geometry;
     spaground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     spaground.author = req.user._id;
     await spaground.save();
-    console.log(spaground);
     req.flash('success', '新しいスパを登録しました');
     res.redirect(`/spagrounds/${spaground._id}`);
 }
